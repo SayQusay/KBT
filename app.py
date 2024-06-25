@@ -50,7 +50,7 @@ def show_producers():
 def track_courier():
     st.header("Tracking Kurir")
     st.write("Kurir saat ini berada di depan menara sains.")
-    st.map("[Klik di sini untuk melihat lokasi di Google Maps](https://maps.app.goo.gl/46vKFwFZjFhE4t6D9)")
+    st.write("[Klik di sini untuk melihat lokasi di Google Maps](https://maps.app.goo.gl/46vKFwFZjFhE4t6D9)")
 
 # Fungsi untuk fitur pemesanan makanan
 def food_delivery():
