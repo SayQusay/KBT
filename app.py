@@ -5,14 +5,14 @@ from PIL import Image
 # Data sample untuk menu makanan
 food_items = [
     {"name": "Nasi Goreng", "price": 15000, "producer": "Warung Bu Tini", "image": "nasgor.jpg"},
-    {"name": "Ayam Geprek", "price": 12000, "producer": "Kantin Mas Bro", "image": "https://via.placeholder.com/150"},
-    {"name": "Sate Ayam", "price": 20000, "producer": "Warung Sate Pak Kumis", "image": "https://via.placeholder.com/150"},
-    {"name": "Mie Ayam", "price": 10000, "producer": "Kantin Mbak Sri", "image": "https://via.placeholder.com/150"}
+    {"name": "Ayam Geprek", "price": 12000, "producer": "Kantin Mas Bro", "image": "ayam geprek.jpg"},
+    {"name": "Sate Ayam", "price": 20000, "producer": "Warung Sate Pak Kumis", "image": "sate ayam.jpg"},
+    {"name": "Mie Ayam", "price": 10000, "producer": "Kantin Mbak Sri", "image": "mie ayam.jpg"}
 ]
 
 # Data sample untuk produsen
 producers = [
-    {"name": "Warung Bu Tini", "address": "Kantin Teknik Mesin", "rating": 4.5},
+    {"name": "Warung Bu Tini", "address": "https://maps.app.goo.gl/46vKFwFZjFhE4t6D9", "rating": 4.5},
     {"name": "Kantin Mas Bro", "address": "Kantin Teknik Elektro", "rating": 4.0},
     {"name": "Warung Sate Pak Kumis", "address": "Kantin Teknik Sipil", "rating": 4.8},
     {"name": "Kantin Mbak Sri", "address": "Kantin Teknik Industri", "rating": 4.2}
@@ -26,7 +26,7 @@ user_account = {
         {"food": "Nasi Goreng", "quantity": 2, "total_price": 30000},
         {"food": "Ayam Geprek", "quantity": 1, "total_price": 12000}
     ],
-    "profile_image": "https://id.pinterest.com/pin/650699846174439397/"
+    "profile_image": "profil.jpg"
 }
 
 # Fungsi untuk menampilkan rekomendasi kuliner
