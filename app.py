@@ -26,7 +26,7 @@ user_account = {
         {"food": "Nasi Goreng", "quantity": 2, "total_price": 30000},
         {"food": "Ayam Geprek", "quantity": 1, "total_price": 12000}
     ],
-    "profile_image": "https://via.placeholder.com/150"
+    "profile_image": "https://id.pinterest.com/pin/650699846174439397/"
 }
 
 # Fungsi untuk menampilkan rekomendasi kuliner
