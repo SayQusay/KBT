@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
-import base64
 
 # Data sample untuk menu makanan
 food_items = [
