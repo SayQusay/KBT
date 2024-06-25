@@ -4,7 +4,7 @@ from PIL import Image
 
 # Data sample untuk menu makanan
 food_items = [
-    {"name": "Nasi Goreng", "price": 15000, "producer": "Warung Bu Tini", "image": "https://id.pinterest.com/pin/579275570850779170/"},
+    {"name": "Nasi Goreng", "price": 15000, "producer": "Warung Bu Tini", "image": "nasgor.jpg"},
     {"name": "Ayam Geprek", "price": 12000, "producer": "Kantin Mas Bro", "image": "https://via.placeholder.com/150"},
     {"name": "Sate Ayam", "price": 20000, "producer": "Warung Sate Pak Kumis", "image": "https://via.placeholder.com/150"},
     {"name": "Mie Ayam", "price": 10000, "producer": "Kantin Mbak Sri", "image": "https://via.placeholder.com/150"}
