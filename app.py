@@ -1,147 +1,102 @@
 import streamlit as st
-from PIL import Image
 import pandas as pd
-import plost
-import numpy as np
-import matplotlib.pyplot as plot
+from PIL import Image
+import base64
 
-# Page Configuration
-st.set_page_config(page_title="HRV Analysis & RR Tachogram Detection", layout="wide")
+# Data sample untuk menu makanan
+food_items = [
+    {"name": "Nasi Goreng", "price": 15000, "producer": "Warung Bu Tini", "image": "https://via.placeholder.com/150"},
+    {"name": "Ayam Geprek", "price": 12000, "producer": "Kantin Mas Bro", "image": "https://via.placeholder.com/150"},
+    {"name": "Sate Ayam", "price": 20000, "producer": "Warung Sate Pak Kumis", "image": "https://via.placeholder.com/150"},
+    {"name": "Mie Ayam", "price": 10000, "producer": "Kantin Mbak Sri", "image": "https://via.placeholder.com/150"}
+]
 
-# Custom CSS for styling
-st.markdown("""
-    <style>
-    .cta-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 30px;
-    }
-    .background {
-        background-image: url('Bedah Jantung.jpg');
-        background-size: cover;
-        padding: 50px 0;
-        text-align: center;
-        color: white;
-    }
-    .background h1 {
-        margin: 0;
-        font-size: 2.5em;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+# Data sample untuk produsen
+producers = [
+    {"name": "Warung Bu Tini", "address": "Kantin Teknik Mesin", "rating": 4.5},
+    {"name": "Kantin Mas Bro", "address": "Kantin Teknik Elektro", "rating": 4.0},
+    {"name": "Warung Sate Pak Kumis", "address": "Kantin Teknik Sipil", "rating": 4.8},
+    {"name": "Kantin Mbak Sri", "address": "Kantin Teknik Industri", "rating": 4.2}
+]
 
-# Navigation Function
-def switch_page(page):
-    if page == "Dashboard":
-        st.session_state.page = "Dashboard"
-    else:
-        st.session_state.page = "Landing"
+# Data sample untuk akun pengguna
+user_account = {
+    "username": "Fulan",
+    "balance": 50000,
+    "order_history": [
+        {"food": "Nasi Goreng", "quantity": 2, "total_price": 30000},
+        {"food": "Ayam Geprek", "quantity": 1, "total_price": 12000}
+    ],
+    "profile_image": "https://via.placeholder.com/150"
+}
 
-# Landing Page Sections
-def header_section():
-    st.markdown("<h1 style='text-align: center;color: #F7F8F7;'>Your heart's rhythm reveals more than just beats</h1> <h4 style='text-align: center;color: #555;'>Unlock the SECRETS of your heart's rhythm </h4>", unsafe_allow_html=True)
+# Fungsi untuk menampilkan rekomendasi kuliner
+def show_recommendations():
+    st.header("Rekomendasi Kuliner")
+    for item in food_items:
+        st.subheader(item['name'])
+        st.image(item['image'], width=150)
+        st.write(f"Harga: Rp {item['price']}")
+        st.write(f"Produsen: {item['producer']}")
 
-def user_concerns_section():
-    st.markdown("<h2 style='text-align: center; color: #F7F8F7;'>Unseen Dangers Awaiting You</h2>", unsafe_allow_html=True)
-    st.image('Orang Sakit.png', use_column_width=True) 
-    st.markdown("<h4 style='text-align: center; color: #EB455F;'>Faktanya: lebih dari 17.9 juta orang meninggal tiap tahunnya akibat penyakit jantung.</h4>", unsafe_allow_html=True)
-    st.write("""
-        Kita terlalu sibuk, sampai kita lupa dan abai terhadap kesehatan jantung kita. Tanpa kita sadari ada banyak ancaman yang mendekat:
-         - Peningkatan risiko penyakit kardiovaskular.
-         - Tingkat stres tanpa disadari yang memengaruhi kesejahteraan secara keseluruhan.
-         - Hilangnya peringatan dini mengenai potensi kondisi jantung.
-    """)
+# Fungsi untuk menampilkan daftar produsen
+def show_producers():
+    st.header("Daftar Produsen")
+    for producer in producers:
+        st.subheader(producer['name'])
+        st.write(f"Alamat: {producer['address']}")
+        st.write(f"Rating: {producer['rating']}")
 
-def causes_section():
-    st.markdown("<h2 class='header'>Recognize it early</h2>", unsafe_allow_html=True)
-    st.write("""
-        Sadar akan pentingnya deteksi HRV akan membantu kamu terhindar dari masalah yang lebih besar, seperti:
-          1. **Stres Kronis**: Stres yang berkepanjangan dapat mengganggu ritme jantung, sehingga menyebabkan masalah kesehatan jangka panjang.
-          2. **Pilihan Gaya Hidup yang Buruk**: Kebiasaan makan yang tidak sehat, kurang olahraga, dan kurang tidur berkontribusi signifikan terhadap masalah jantung.
-          3. **Kurangnya Kesadaran**: Banyak orang tidak menyadari pentingnya memantau kesehatan jantung mereka secara teratur.
-    """)
+# Fungsi untuk tracking kurir (dummy data)
+def track_courier():
+    st.header("Tracking Kurir")
+    st.write("Kurir saat ini berada di gerbang utama ITS.")
+    st.map()
 
-def testimonials_section():
-    st.markdown("<h2 class='header'>Hear from Our Community</h2>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns(3)
+# Fungsi untuk fitur pemesanan makanan
+def food_delivery():
+    st.header("Pesan Makanan")
+    selected_food = st.selectbox("Pilih makanan yang ingin dipesan", [item['name'] for item in food_items])
+    quantity = st.number_input("Jumlah porsi", min_value=1, max_value=10, value=1)
+    selected_producer = next(item for item in food_items if item["name"] == selected_food)["producer"]
+    price = next(item for item in food_items if item["name"] == selected_food)["price"]
+    total_price = quantity * price
     
-    with col1:
-        st.image('Ardi.png', width=150)  # Replace with your actual image file
-        st.markdown("<h4 class='testimonial'>Rahardian Asyam Zuhdi</h4>", unsafe_allow_html=True)
-        st.write("""
-            Setelah mempelajari analisis HRV,  stress saya menjadi berkurang. Saya bisa berolahraga dengan teratur dan berkeliling dunia kapanpun saya mau.
-        """)
-        
-    with col2:
-        st.image('Bahari.png', width=150)  # Replace with your actual image file
-        st.markdown("<h4 class='testimonial'>Bahari Noor Hidayat</h4>", unsafe_allow_html=True)
-        st.write("""
-            Deteksi RR Tachogram membantu saya mengetahui kondisi kesehatan saya sejak dini, saya tidak lagi merasa khawatir menentukan penanganan yang tepat untuk rasa sakit yang saya alami.
-        """)
-        
-    with col3:
-        st.image('Qusay.png', width=150)  # Replace with your actual image file
-        st.markdown("<h4 class='testimonial'>Muhammad Qusay Yubasyrendra Akib</h4>", unsafe_allow_html=True)
-        st.write("""
-            Memahami HRV berarti mulai memahami diri sendiri. Saya menjadi lebih mampu untuk mengelola mengelola kecemasan saya, akhirnya kualitas tidur saya menjadi lebih baik.
-        """)
+    st.write(f"Harga total: Rp {total_price}")
+    if st.button("Pesan Sekarang"):
+        st.success(f"Pesanan {selected_food} sebanyak {quantity} porsi dari {selected_producer} berhasil dipesan!")
 
-def cta_section():
-    st.markdown("<h2 style='text-align: center; color: #4CAF50;'>It's Never Too Late</h2>", unsafe_allow_html=True)
-    st.write("<h5 style='text-align: center;color: #F7F8F7;'>Kami percaya setiap orang ingin memberikan yang terbaik untuk dirinya dan orang di sekitranya</h2>", unsafe_allow_html=True)
-    st.markdown("<div class='cta-button'><a href='#' onclick='window.location.reload()' style='background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>I'm ready to be more healthy</a></div>", unsafe_allow_html=True)
-    if st.button("I'm Aware"):
-        switch_page("Dashboard")
-
-def landing_page():
-    header_section()
-    st.markdown("---")
-    user_concerns_section()
-    st.markdown("---")
-    causes_section()
-    st.markdown("---")
-    testimonials_section()
-    st.markdown("---")
-    cta_section()
-
-# Dashboard Page
-def dashboard_page():
-    st.header('ASN Group 2')
-
-    st.subheader("Dataset")
-    data_file = st.file_uploader("Upload Dataset", type=["txt"])
-    if data_file is not None:
-        try:
-            column_names=["ECG"]
-            data = pd.read_csv(data_file, delimiter="\t",names=column_names)  # Pastikan delimiter sesuai dengan file txt
-            data["sample interval"] = np.arange(len(data))
-            data["elapsed time"] = (data["sample interval"]) * (1/200)
-            x = data["elapsed time"]
-            y = data["ECG"] - (sum(data["ECG"] / len(data["ECG"])))
-            st.dataframe(data)
-            st.write("Grafik dari dataset")
-            fig, ax = plot.subplots(figsize=(35, 15))
-            ax.plot(x[0:2000], y[0:2000], color='b')
-            ax.set_xlabel("Elapsed time")
-            ax.set_ylabel("Amplitude (mv)")
-
-            # Display the plot in Streamlit
-            st.pyplot(fig)
-        except Exception as e:
-            st.error(f"Error reading file: {e}")
-    jumlahdata = int(np.size(x))
-    st.write("Jumlah data:\n ",jumlahdata)
+# Fungsi untuk menampilkan halaman akun pengguna
+def show_account():
+    st.header("Akun Pengguna")
+    st.image(user_account['profile_image'], width=150)
+    st.subheader(user_account['username'])
     
-# Main App
+    st.write("**Saldo:** Rp", user_account['balance'])
+    
+    st.subheader("Riwayat Pemesanan")
+    for order in user_account['order_history']:
+        st.write(f"Makanan: {order['food']}, Jumlah: {order['quantity']}, Total Harga: Rp {order['total_price']}")
+
+    st.subheader("Pengaturan")
+    st.write("Pengaturan akun dapat disesuaikan di sini.")
+
+# Main function
 def main():
-    if "page" not in st.session_state:
-        st.session_state.page = "Landing"
-    
-    if st.session_state.page == "Dashboard":
-        dashboard_page()
-    else:
-        landing_page()
+    st.title("Aplikasi Pemesanan Makanan ITS")
+    menu = ["Food Delivery", "Rekomendasi Kuliner", "Tracking Kurir", "Daftar Produsen", "Akun"]
+    choice = st.sidebar.selectbox("Pilih Fitur", menu)
 
-if __name__ == "__main__":
+    if choice == "Food Delivery":
+        food_delivery()
+    elif choice == "Rekomendasi Kuliner":
+        show_recommendations()
+    elif choice == "Tracking Kurir":
+        track_courier()
+    elif choice == "Daftar Produsen":
+        show_producers()
+    elif choice == "Akun":
+        show_account()
+
+if __name__ == '__main__':
     main()
