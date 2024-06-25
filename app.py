@@ -12,7 +12,7 @@ food_items = [
 
 # Data sample untuk produsen
 producers = [
-    {"name": "Warung Bu Tini", "address": "https://maps.app.goo.gl/46vKFwFZjFhE4t6D9", "rating": 4.5},
+    {"name": "Warung Bu Tini", "address": "Kantin Teknik Mesin", "rating": 4.5},
     {"name": "Kantin Mas Bro", "address": "Kantin Teknik Elektro", "rating": 4.0},
     {"name": "Warung Sate Pak Kumis", "address": "Kantin Teknik Sipil", "rating": 4.8},
     {"name": "Kantin Mbak Sri", "address": "Kantin Teknik Industri", "rating": 4.2}
@@ -50,7 +50,7 @@ def show_producers():
 def track_courier():
     st.header("Tracking Kurir")
     st.write("Kurir saat ini berada di gerbang utama ITS.")
-    st.map()
+    st.map('https://maps.app.goo.gl/46vKFwFZjFhE4t6D9')
 
 # Fungsi untuk fitur pemesanan makanan
 def food_delivery():
